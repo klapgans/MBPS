@@ -115,19 +115,18 @@ class Grass(Module):
         # TODO: Comment the units and short description for each parameter
         a = self.p['a']          # [m2 kgC-1] structural specific leaf area
         alpha = self.p['alpha']  # [kgCO2 J-1] leaf photosynthetic efficiency
-        beta = ???
-        k = ???
-        m = ???
-        M = ???
-        mu_m = ???
-        P0 = ???
-        phi = ???
-        Tmax = ???
-        Tmin = ???
-        Topt = ???
-        Y = ???
-        z = ???
-        
+        beta = self.p['beta']    # [d-1] senescence rate
+        k = self.p['k']          # [-] extinction coefficient of canopy
+        m = self.p['m']          # [-] leaf transmission coefficient
+        M = self.p['M']          # [d-1] maintenance respiration coefficient
+        mu_m = self.p['mu_m']    # [d-1] max. structural specific growth rate
+        P0 = self.p['P0']        # [kgCO2 m-2 d-1] max photosynthesis parameter
+        phi = self.p['phi']      # [-] photoshynthetic fraction for growth
+        Tmax = self.p['Tmax']    # [°C] maximum temperature for growth
+        Tmin = self.p['Tmin']    # [°C] minimum temperature for growth
+        Topt = self.p['Topt']    # [°C] optimum temperature for growth
+        Y = self.p['Y']         # [-] structure fraction from storage
+        z = self.p['z']         # [-] bell function power
         # -- Disturbances at instant _t
         I0, T, WAI = self.d['I0'], self.d['T'], self.d['WAI']
         _I0 = np.interp(_t,I0[:,0],I0[:,1])     # [J m-2 d-2] PAR
@@ -142,28 +141,28 @@ class Grass(Module):
         # TODO: Fill in the supporting equations of the model
         # TODO: Comment the units and short description for each variable
         # - Mass
-        W = ???
+        W = Ws + Wg            # [kgC m-2] Total mass
         # - Temperature index [-]
         DTmax = max(Tmax - _T, 0)
         DTmin = max(_T - Tmin, 0)
         DTa = Tmax-Topt
         DTb = Topt-Tmin
-        TI = ???
+        TI = ( (DTmax/DTa) * ((DTmin/DTb)**(DTb/DTa)) )**z
         # - Photosynthesis
         LAI = ???
         Pm = ???
-        P = ???
+        P = Pm / k * np.log((alpha + Pm)/(alpha*np.exp(-k * LAI) + Pm))
         # - Flows
         # Photosynthesis [kgC m-2 d-1]
-        f_P = ???
+        f_P = phi*P*theta
         # Shoot respiration [kgC m-2 d-1]
-        f_SR = ???
+        f_SR = ((1-Y)/Y)*mu_m*Wg
         # Maintenance respiration [kgC m-2 d-1]
-        f_MR = ???
+        f_MR = M*Wg
         # Growth [kgC m-2 d-1]
-        f_G = ???
+        f_G =mu_m*Wg
         # Senescence [kgC m-2 d-1]
-        f_S = ???
+        f_S = beta*Wg
         # Recycling
         f_R = 0
         
