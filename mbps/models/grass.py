@@ -149,18 +149,22 @@ class Grass(Module):
         DTb = Topt-Tmin
         TI = ( (DTmax/DTa) * ((DTmin/DTb)**(DTb/DTa)) )**z
         # - Photosynthesis
-        LAI = ???
-        Pm = ???
-        P = Pm / k * np.log((alpha + Pm)/(alpha*np.exp(-k * LAI) + Pm))
+        # calculate LAI
+        LAI = a *Ws
+        Pm = P0 * TI
+        c1=alpha*(k/(1-m))*_I0
+        P = (Pm / k) * np.log((c1 + Pm)/(c1*np.exp(-k * LAI) + Pm))
         # - Flows
         # Photosynthesis [kgC m-2 d-1]
-        f_P = phi*P*theta
+        f_P = phi*P*theta*_WAI
+        # Growth respiration [kgC m-2 d-1]
+        f_G =mu_m*((Ws*Wg)/W)
         # Shoot respiration [kgC m-2 d-1]
-        f_SR = ((1-Y)/Y)*mu_m*Wg
+        f_SR = ((1-Y)/Y)*f_G
         # Maintenance respiration [kgC m-2 d-1]
         f_MR = M*Wg
         # Growth [kgC m-2 d-1]
-        f_G =mu_m*Wg
+
         # Senescence [kgC m-2 d-1]
         f_S = beta*Wg
         # Recycling
@@ -168,8 +172,8 @@ class Grass(Module):
         
         # -- Differential equations [kgC m-2 d-1]
         # TODO: Write the differential equations based on the flow variables
-        dWs_dt = ???
-        dWg_dt = ???
+        dWs_dt = f_P - f_SR -f_G +f_R- f_MR
+        dWg_dt = f_G -f_R -f_S
         
         # -- Store flows [kgC m-2 d-1]
         idx = np.isin(self.t, _t)
@@ -193,14 +197,14 @@ class Grass(Module):
         a = self.p['a']
         # Numerical integration
         # TODO: Call the Euler-forward integration function
-        y0 = ???
-        y_int = ???
+        y0 = np.array([Ws0, Wg0])
+        y_int = fcn_euler_forward(diff, tspan, y0, dt)
         # Model results
         # TODO: Retrieve the model outputs
         t = y_int['t']
-        Ws = ???
-        Wg = ???
-        LAI = ???
+        Ws = y_int['y'][0,:]
+        Wg = y_int['y'][1,:]
+        LAI = a*Wg
         return {
             't':t,          # [d] Integration time
             'Ws':Ws,        # [kgC m-2] Structure weight 
