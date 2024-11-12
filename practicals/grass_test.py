@@ -21,11 +21,11 @@ tsim = np.linspace(0.0, 365.0, 365) # [d]
 dt = 1 # [d]
 # Initial conditions
 # TODO: Define sensible values for the initial conditions
-x0 = {'Ws':0.1,'Wg':0.1} # [kgC m-2]
+x0 = {'Ws':1E-4,'Wg':1E-4} # [kgC m-2]
 # Model parameters (as provided by Mohtar et al. 1997 p.1492-1493)
 # TODO: Define values for the model parameters
 p = {'a':40.0,          # [m2 kgC-1] structural specific leaf area
-     'alpha':2E-8,      # [kgCO2 J-1] leaf photosynthetic efficiency
+     'alpha':2E-7,      # [kgCO2 J-1] leaf photosynthetic efficiency
      'beta': 0.05,
      'k':0.5,           # [-] extinction coefficient of canopy
      'm':0.1,           # [-] leaf transmission coefficient

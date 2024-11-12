@@ -150,7 +150,7 @@ class Grass(Module):
         TI = ( (DTmax/DTa) * ((DTmin/DTb)**(DTb/DTa)) )**z
         # - Photosynthesis
         # calculate LAI
-        LAI = a *Ws
+        LAI = a *Wg
         Pm = P0 * TI
         c1=alpha*(k/(1-m))*_I0
         P = (Pm / k) * np.log((c1 + Pm)/(c1*np.exp(-k * LAI) + Pm))
