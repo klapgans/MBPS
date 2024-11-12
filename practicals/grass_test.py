@@ -9,6 +9,7 @@ Evaluation of the grass growth model
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from mbps.models.grass import Grass
 
@@ -45,9 +46,15 @@ p = {'a':40.0,          # [m2 kgC-1] structural specific leaf area
 # 2-column arrays: Column 1 for time. Column 2 for the constant value.
 # PAR [J m-2 d-1], environment temperature [°C], and
 # water availability index [-]
+with open('data/practical_data/weather_2001.csv') as f:
+     df = pd.read_csv(f, comment='#', header=None, names=['STN', 'YYYYMMDD', 'TG', 'SQ', 'Q'])
+     I0 = np.array(df['Q'].values)
+     T = np.array(df['TG'].values)
+
+
 # TODO: Fill in sensible constant values for T and I0.
-d = {'I0':np.array([tsim, np.full((tsim.size,), 8E7)]).T,
-     'T':np.array([tsim, np.full((tsim.size,), 20)]).T,
+d = {'I0_ref':np.array([tsim, np.full((tsim.size,), 8E7)]).T,
+     'T_ref':np.array([tsim, np.full((tsim.size,), 20)]).T,
      'WAI':np.array([tsim, np.full((tsim.size,),1.0)]).T
      }
 
