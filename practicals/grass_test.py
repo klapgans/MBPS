@@ -24,9 +24,9 @@ dt = 1 # [d]
 x0 = {'Ws':1E-4,'Wg':1E-4} # [kgC m-2]
 # Model parameters (as provided by Mohtar et al. 1997 p.1492-1493)
 # TODO: Define values for the model parameters
-p = {'a':40.0,          # [m2 kgC-1] structural specific leaf area
-     'alpha':2E-7,      # [kgCO2 J-1] leaf photosynthetic efficiency
-     'beta': 0.05,
+p = {'a':45,          # [m2 kgC-1] structural specific leaf area
+     'alpha':2E-8,      # [kgCO2 J-1] leaf photosynthetic efficiency
+     'beta':0.025,
      'k':0.5,           # [-] extinction coefficient of canopy
      'm':0.1,           # [-] leaf transmission coefficient
      'M':0.02,          # [d-1] maintenance respiration coefficient
@@ -41,8 +41,7 @@ p = {'a':40.0,          # [m2 kgC-1] structural specific leaf area
      }
 # Parameters adjusted manually to obtain growth
 # TODO: If needed, adjust the values for 2 or 3 parameters to obtain growth
-# p[???] = ???
-# p[???] = ???
+
 
 # Disturbances (assumed constant for this test)
 # 2-column arrays: Column 1 for time. Column 2 for the constant value.
@@ -55,10 +54,10 @@ with open('data/practical_data/weather_2001.csv') as f:
 
 
 # TODO: Fill in sensible constant values for T and I0.
-d = {'I0_ref':np.array([tsim, np.full((tsim.size,), 8E7)]).T,
-     'T_ref':np.array([tsim, np.full((tsim.size,), 20)]).T,
-     'I0':np.array([tsim, I0]), # [J m-2 d-1]
-     'T':np.array([tsim, T]),   # [°C]
+d = {'I0':np.array([tsim, np.full((tsim.size,), 9E6)]).T,
+     'T':np.array([tsim, np.full((tsim.size,), 18)]).T,
+     'I0_ref':np.array([tsim, I0]), # [J m-2 d-1]
+     'T_ref':np.array([tsim, T]),   # [°C]
      'WAI':np.array([tsim, np.full((tsim.size,),1.0)]).T
      }
 
@@ -77,14 +76,14 @@ y_grass = grass.run(tspan,d,u)
 # Retrieve simulation results
 # assuming 0.4 kgC/kgDM (Mohtar et al. 1997, p. 1492)
 t_grass = y_grass['t']
-WsDM = np.array(y_grass['Ws'])
-WgDM = np.array(y_grass['Wg'])
+WsDM = np.array(y_grass['Ws'])*0.4
+WgDM = np.array(y_grass['Wg'])*0.4
 
 # -- Plot
 # TODO: Make a plot for WsDM & WgDM vs. t
 plt.figure(figsize=(10, 6))
-plt.plot(t_grass, WsDM, label='Structural Biomass (WsDM)')
-plt.plot(t_grass, WgDM, label='Storage Biomass (WgDM)')
+plt.plot(t_grass, WsDM, label='storage (WsDM)')
+plt.plot(t_grass, WgDM, label='structure WgDM)')
 plt.xlabel('Time [days]')
 plt.ylabel('Biomass [kgDM m-2]')
 plt.title('Grass Growth Over Time')

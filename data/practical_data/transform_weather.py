@@ -14,7 +14,7 @@ def transform_weather_data(data_dir, csv_files):
 def convert_units(data):
     for data_file, df in data.items():
         df['TG'] = df['TG'] * 0.1
-        df['Q'] = df['Q'] * 10000*60*60*24
+        df['Q'] = df['Q'] * 10000
         df["date"] = pd.to_datetime(df["YYYYMMDD"], format='%Y%m%d')
         df["day_nr"] = df["date"].dt.dayofyear
         data[data_file] = df
