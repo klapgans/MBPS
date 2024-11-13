@@ -90,9 +90,10 @@ class Module():
             # Modify parameter kp
             instance_mns.p[kp] = 0.95*p_ref[kp]
             instance_pls.p[kp] = 1.05*p_ref[kp]
-            if kp[0] == 'T':
-                instance_mns.p[kp] = p_ref[kp]-1.0
-                instance_pls.p[kp] = p_ref[kp]+1.0
+        # TODO: Modify the calculation for temperature-related parameters
+            #if kp[0] == 'T':
+            #    instance_mns.p[kp] = ???
+            #    instance_pls.p[kp] = ???
             # Run model
             y_mns = instance_mns.run(tspan,d,u)
             y_pls = instance_pls.run(tspan,d,u)
@@ -102,8 +103,12 @@ class Module():
                 s_mns = (y_mns[ky]-y_ref[ky])/(p_mns[kp]-p_ref[kp])
                 s_pls = (y_pls[ky]-y_ref[ky])/(p_pls[kp]-p_ref[kp])
                 # Compute normalized sensitivity
-                ns_mns = s_mns*p_ref[kp]/np.average(y_ref[ky])
-                ns_pls = s_pls*p_ref[kp]/np.average(y_ref[ky])
+                ns_mns = s_mns*p_ref[kp]/y_ref[ky]
+                ns_pls = s_pls*p_ref[kp]/y_ref[ky]
+                # Compute normalized sensitivity
+                # (normalized with respect to average of y through time)
+                # ns_mns = s_mns*p_ref[kp]/np.average(y_ref[ky])
+                # ns_pls = s_pls*p_ref[kp]/np.average(y_ref[ky])
                 # Store in corresponding column in DataFrame
                 # (tuple to access MultiIndex column name)
                 ns_df.loc[:,(ky,kp,'-')] = ns_mns

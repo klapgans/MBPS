@@ -8,7 +8,7 @@ MSc Biosystems Engineering, WUR
 Class for Lotka-Volterra model, used for predator-prey population dynamics
 """
 import numpy as np
-import scipy
+
 
 from mbps.classes.module import Module
 from mbps.functions.integration import fcn_euler_forward
@@ -71,21 +71,13 @@ class LotkaVolterra(Module):
         # Numerical integration
         # (for numerical integration, y0 must be numpy array)
         y0 = np.array([prey0,pred0])
-        y_int = fcn_euler_forward(diff,tspan,y0,h=dt)
-        
+        y_int2 = fcn_euler_forward(diff,tspan,y0,h=dt)
+        print("succesfull integration")
         # TODO: add a second integration output from solve_ivp
         # Note: you must import the function solve_ivp from scipy,
         # at the top of this file.
         # See the help of solve_ivp, and pay special attention to
         # the argument t_eval.
-        t_eval = np.linspace(0, 365, 366)
-        y_int2 = scipy.integrate.solve_ivp(
-            fun=self.diff,
-            t_span=tspan,
-            y0=y0,
-            method='RK45',
-            t_eval=t_eval
-        )
         
         # Retrieve results from numerical integration output
         # TODO: retrieve the results from y_int2

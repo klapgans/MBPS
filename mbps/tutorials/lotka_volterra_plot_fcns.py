@@ -61,59 +61,59 @@ def modify_doc(doc):
     ply1p1p2.yaxis.axis_label = "NS prey [-]"
     # y1 to p3 and p4
     ply1p3p4 = figure(width=400, height=250, tools="",
-                      toolbar_location=None, min_border=ply.min_border)
+                    toolbar_location=None, min_border=ply.min_border)
     ply1p3p4.line(x='index', y='prey_p3_-', source=source, line_width=2,
-                  line_color='navy', line_dash='dashed', legend_label='p3-')
+                line_color='navy', line_dash='dashed', legend_label='p3-')
     ply1p3p4.line(x='index', y='prey_p3_+', source=source, line_width=2,
-                  line_color='navy', legend_label='p3+')
+                line_color='navy', legend_label='p3+')
     ply1p3p4.line(x='index', y='prey_p4_-', source=source, line_width=2,
-                  line_color='firebrick',line_dash='dashed', legend_label='p4-')
+                line_color='firebrick',line_dash='dashed', legend_label='p4-')
     ply1p3p4.line(x='index', y='prey_p4_+', source=source, line_width=2,
-                  line_color='firebrick', legend_label='p4+')
+                line_color='firebrick', legend_label='p4+')
     ply1p3p4.yaxis.axis_label = "NS prey [-]"
     ply1p3p4.xaxis.axis_label = "time [d]"
     
     # y2 to p1 and p2
     ply2p1p2 = figure(width=400, height=250, tools="",
-                      toolbar_location=None, min_border=ply.min_border)
+                    toolbar_location=None, min_border=ply.min_border)
     ply2p1p2.line(x='index', y='pred_p1_-', source=source, line_width=2,
-                  line_color='navy', line_dash='dashed', legend_label='p1-')
+                line_color='navy', line_dash='dashed', legend_label='p1-')
     ply2p1p2.line(x='index', y='pred_p1_+', source=source, line_width=2,
-                  line_color='navy', legend_label='p1+')
+                line_color='navy', legend_label='p1+')
     ply2p1p2.line(x='index', y='pred_p2_-', source=source, line_width=2,
-                  line_color='firebrick', line_dash='dashed', legend_label='p2-')
+                line_color='firebrick', line_dash='dashed', legend_label='p2-')
     ply2p1p2.line(x='index', y='pred_p2_+', source=source, line_width=2,
-                  line_color='firebrick', legend_label='p2+')
+                line_color='firebrick', legend_label='p2+')
     ply2p1p2.yaxis.axis_label = "NS pred [-]"
     # y2 to p3 and p4
     ply2p3p4 = figure(width=400, height=250, tools="",
-                      toolbar_location=None, min_border=ply.min_border)
+                    toolbar_location=None, min_border=ply.min_border)
     ply2p3p4.line(x='index', y='pred_p3_-', source=source, line_width=2,
-                  line_color='navy', line_dash='dashed', legend_label='p3-')
+                line_color='navy', line_dash='dashed', legend_label='p3-')
     ply2p3p4.line(x='index', y='pred_p3_+', source=source, line_width=2,
-                  line_color='navy', legend_label='p3+')
+                line_color='navy', legend_label='p3+')
     ply2p3p4.line(x='index', y='pred_p4_-', source=source, line_width=2,
-                  line_color='firebrick', legend_label='p4-')
+                line_color='firebrick', legend_label='p4-')
     ply2p3p4.line(x='index', y='pred_p4_+', source=source, line_width=2,
-                  line_color='firebrick', line_dash='dashed', legend_label='p4+')
+                line_color='firebrick', line_dash='dashed', legend_label='p4+')
     ply2p3p4.yaxis.axis_label = "NS pred [-]"
     ply2p3p4.xaxis.axis_label = "time [d]"
     
     # Sliders
     fmt = formatters.BasicTickFormatter(use_scientific=True, power_limit_low=-1)
     slider1 = Slider(start=0, end=2/30, value=1/30, step=0.1/30,
-                      title="p1 [d-1]", format=fmt)
+                    title="p1 [d-1]", format=fmt)
     slider2 = Slider(start=0, end=0.04/30, value=0.02/30, step=0.002/30,
-                      title="p2 [pred-1 d-1]", format=fmt)
+                    title="p2 [pred-1 d-1]", format=fmt)
     slider3 = Slider(start=0, end=0.02/30, value=0.01/30, step=0.001/30,
-                      title="p3 [prey-1 d-1]", format=fmt)
+                    title="p3 [prey-1 d-1]", format=fmt)
     slider4 = Slider(start=0, end=2/30, value=1/30, step=0.1/30,
-                      title="p4 [d-1]", format=fmt)
+                    title="p4 [d-1]", format=fmt)
     
     # Function to call get_data when slider value changes
     def update_data(attrname,old,new):
         source.data = get_data(slider1.value, slider2.value,
-                               slider3.value, slider4.value)
+                            slider3.value, slider4.value)
     
     # Call assign_data when slider value changes
     slider1.on_change('value',update_data)
