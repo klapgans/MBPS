@@ -10,7 +10,7 @@ Class for grass growth model from Grasim
 import numpy as np
 
 from mbps.classes.module import Module
-from mbps.functions.integration_sol import fcn_euler_forward
+from mbps.functions.integration import fcn_euler_forward
 
 class Grass(Module):
     ''' 
