@@ -82,6 +82,10 @@ ns = grass.ns(x0, p, d=d, u=u, y_keys=('Wg',))
 
 # Calculate mean NS through time
 # TODO: use the ns DataFrame to calculate mean NS per parameter
+mean_wg_a = ns["Wg"]["a"].mean()
+mean_wg_alpha = ns["Wg"]["alpha"].mean()
+
+
 
 
 # -- Plots
