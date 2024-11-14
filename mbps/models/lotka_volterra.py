@@ -19,7 +19,7 @@ class LotkaVolterra(Module):
 
         dx1/dt = p1*x1 - p2*x1*x2
         dx2/dt = p3*x1*x2 - p4*x2
-    
+
     Parameters
     ----------
     tsim : array
@@ -36,11 +36,11 @@ class LotkaVolterra(Module):
         * p2 : Death rate of preys due to predation [pred-1 d-1]
         * p3 : Birth rate of predators facilitated by predation [prey-1 d-1]
         * p4 : Death rate of predators [d-1]
-        
+
     Returns
     -------
     y : dictionary
-        Model outputs as 1D arrays ('prey', 'pred'), 
+        Model outputs as 1D arrays ('prey', 'pred'),
         and the evaluation time 't'.
     """
     # Initialize object. Inherit methods from object Module
@@ -67,7 +67,7 @@ class LotkaVolterra(Module):
         diff = self.diff    # function with system of differential equations
         prey0 = self.x0['prey'] # initial condition
         pred0 = self.x0['pred'] # initial condiiton
-        
+
         # Numerical integration
         # (for numerical integration, y0 must be numpy array)
         y0 = np.array([prey0,pred0])
@@ -78,12 +78,12 @@ class LotkaVolterra(Module):
         # at the top of this file.
         # See the help of solve_ivp, and pay special attention to
         # the argument t_eval.
-        
+
         # Retrieve results from numerical integration output
         # TODO: retrieve the results from y_int2
         t = y_int2['t']              # time
         prey = y_int2['y'][0,:]      # first output (row 0, all columns)
         pred = y_int2['y'][1,:]      # second output (row 1, all columns)
-        
+
         # TODO: add the model outputs from y_int2 (solve_ivp)
         return {'t':t, 'prey':prey, 'pred':pred}
