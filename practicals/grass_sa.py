@@ -61,7 +61,7 @@ T = data_weather.loc[t_ini:t_end,'TG'].values    # [0.1 °C] Env. temperature
 I_gl = data_weather.loc[t_ini:t_end,'Q'].values # [J cm-2 d-1] Global irradiance 
 # Aply the necessary conversions of units
 T = T*0.1    # [???] to [???] Env. temperature
-I0 = I_gl*10000   # [???] to [???] Global irradiance to PAR
+I0 = I_gl*10000*0.48   # [???] to [???] Global irradiance to PAR
 # Dictionary of disturbances (2D arrays, with col 1 for time, and col 2 for d)
 d = {'T':np.array([tsim, T]).T,
      'I0':np.array([tsim, I0]).T,   
@@ -82,10 +82,8 @@ ns = grass.ns(x0, p, d=d, u=u, y_keys=('Wg',))
 
 # Calculate mean NS through time
 # TODO: use the ns DataFrame to calculate mean NS per parameter
-mean_wg_a = ns["Wg"]["a"].mean()
-mean_wg_alpha = ns["Wg"]["alpha"].mean()
-
-
+# mean_wg_a = ns["Wg"]["a"].mean()
+# mean_wg_alpha = ns["Wg"]["alpha"].mean()
 
 
 # -- Plots
@@ -96,4 +94,45 @@ plt.plot(grass.t, ns['Wg','a','+'], label='a +')
 plt.legend()
 plt.xlabel(r'$time\ [d]$')
 plt.ylabel('normalized sensitivity [-]')
-plt.show()
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_a.png")
+
+plt.figure(2)
+plt.plot(grass.t, ns['Wg','alpha','-'], label='alpha -', linestyle='--')
+plt.plot(grass.t, ns['Wg','alpha','+'], label='alpha +')
+plt.legend()
+plt.xlabel(r'$time\ [d]$')
+plt.ylabel('normalized sensitivity [-]')
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_alpha.png")
+
+plt.figure(3)
+plt.plot(grass.t, ns['Wg','beta','-'], label='beta -', linestyle='--')
+plt.plot(grass.t, ns['Wg','beta','+'], label='beta +')
+plt.legend()
+plt.xlabel(r'$time\ [d]$')
+plt.ylabel('normalized sensitivity [-]')
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_beta.png")
+
+plt.figure(4)
+plt.plot(grass.t, ns['Wg','Y','-'], label='Y -', linestyle='--')
+plt.plot(grass.t, ns['Wg','Y','+'], label='Y +')
+plt.legend()
+plt.xlabel(r'$time\ [d]$')
+plt.ylabel('normalized sensitivity [-]')
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_Y.png")
+
+plt.figure(5)
+plt.plot(grass.t, ns['Wg','phi','-'], label='phi -', linestyle='--')
+plt.plot(grass.t, ns['Wg','phi','+'], label='phi +')
+plt.legend()
+plt.xlabel(r'$time\ [d]$')
+plt.ylabel('normalized sensitivity [-]')
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_phi.png")
+
+plt.figure(6)
+plt.plot(grass.t, ns['Wg','M','-'], label='M -', linestyle='--')
+plt.plot(grass.t, ns['Wg','M','+'], label='M +')
+plt.legend()
+plt.xlabel(r'$time\ [d]$')
+plt.ylabel('normalized sensitivity [-]')
+plt.savefig("data/practical_data/thursday_week3/grass_growth_sensitivity_M.png")
+

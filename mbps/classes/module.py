@@ -91,9 +91,11 @@ class Module():
             instance_mns.p[kp] = 0.95*p_ref[kp]
             instance_pls.p[kp] = 1.05*p_ref[kp]
         # TODO: Modify the calculation for temperature-related parameters
-            #if kp[0] == 'T':
-            #    instance_mns.p[kp] = ???
-            #    instance_pls.p[kp] = ???
+            if kp[0] == 'T': # temperature-related parameter which can be 0
+                if p_ref[kp] == 0:
+                    p_ref[kp] += 0.01
+                instance_mns.p[kp] = 0.95*p_ref[kp]
+                instance_pls.p[kp] = 1.05*p_ref[kp]
             # Run model
             y_mns = instance_mns.run(tspan,d,u)
             y_pls = instance_pls.run(tspan,d,u)
